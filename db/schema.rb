@@ -13,50 +13,53 @@
 
 ActiveRecord::Schema.define(version: 20191022115856) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "account_users", force: :cascade do |t|
-    t.integer "user_id",    limit: 4
-    t.integer "account_id", limit: 4
+    t.integer "user_id"
+    t.integer "account_id"
   end
 
   create_table "accounts", force: :cascade do |t|
-    t.string   "org_name",                    limit: 255
-    t.string   "country",                     limit: 255
-    t.string   "street_address_1",            limit: 255
-    t.string   "street_address_2",            limit: 255
-    t.string   "city",                        limit: 255
-    t.string   "province_or_state",           limit: 255
-    t.string   "postal_or_zip_code",          limit: 255
-    t.string   "profession",                  limit: 255
-    t.string   "phone_business",              limit: 255
-    t.string   "phone_mobile",                limit: 255
-    t.string   "fax",                         limit: 255
-    t.string   "email",                       limit: 255
-    t.string   "time_zone",                   limit: 255
+    t.string   "org_name"
+    t.string   "country"
+    t.string   "street_address_1"
+    t.string   "street_address_2"
+    t.string   "city"
+    t.string   "province_or_state"
+    t.string   "postal_or_zip_code"
+    t.string   "profession"
+    t.string   "phone_business"
+    t.string   "phone_mobile"
+    t.string   "fax"
+    t.string   "email"
+    t.string   "time_zone"
     t.boolean  "auto_dst_adjustment"
-    t.string   "currency_code",               limit: 255
-    t.string   "currency_symbol",             limit: 255
-    t.string   "admin_first_name",            limit: 255
-    t.string   "admin_last_name",             limit: 255
-    t.string   "admin_email",                 limit: 255
-    t.decimal  "admin_billing_rate_per_hour",             precision: 10
-    t.string   "admin_user_name",             limit: 255
-    t.string   "admin_password",              limit: 255
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.string   "currency_code"
+    t.string   "currency_symbol"
+    t.string   "admin_first_name"
+    t.string   "admin_last_name"
+    t.string   "admin_email"
+    t.decimal  "admin_billing_rate_per_hour", precision: 10
+    t.string   "admin_user_name"
+    t.string   "admin_password"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
   end
 
   create_table "activities", force: :cascade do |t|
-    t.integer  "trackable_id",   limit: 4
-    t.string   "trackable_type", limit: 255
-    t.integer  "owner_id",       limit: 4
-    t.string   "owner_type",     limit: 255
-    t.string   "key",            limit: 255
-    t.text     "parameters",     limit: 65535
-    t.integer  "recipient_id",   limit: 4
-    t.string   "recipient_type", limit: 255
+    t.integer  "trackable_id"
+    t.string   "trackable_type"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "key"
+    t.text     "parameters"
+    t.integer  "recipient_id"
+    t.string   "recipient_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_read",                      default: false
+    t.boolean  "is_read",        default: false
   end
 
   add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
@@ -64,9 +67,9 @@ ActiveRecord::Schema.define(version: 20191022115856) do
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
   create_table "api_keys", force: :cascade do |t|
-    t.string   "access_token", limit: 255
+    t.string   "access_token"
     t.datetime "expires_at"
-    t.integer  "user_id",      limit: 4
+    t.integer  "user_id"
     t.boolean  "active"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -76,363 +79,358 @@ ActiveRecord::Schema.define(version: 20191022115856) do
   add_index "api_keys", ["user_id"], name: "index_api_keys_on_user_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
-    t.string   "category",   limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "client_contacts", force: :cascade do |t|
-    t.integer  "client_id",      limit: 4
-    t.string   "first_name",     limit: 255
-    t.string   "last_name",      limit: 255
-    t.string   "email",          limit: 255
-    t.string   "home_phone",     limit: 255
-    t.string   "mobile_number",  limit: 255
-    t.string   "archive_number", limit: 255
+    t.integer  "client_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.string   "home_phone"
+    t.string   "mobile_number"
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "clients", force: :cascade do |t|
-    t.string   "organization_name", limit: 255
-    t.string   "email",             limit: 255
-    t.string   "first_name",        limit: 255
-    t.string   "last_name",         limit: 255
-    t.string   "home_phone",        limit: 255
-    t.string   "mobile_number",     limit: 255
-    t.string   "send_invoice_by",   limit: 255
-    t.string   "country",           limit: 255
-    t.string   "address_street1",   limit: 255
-    t.string   "address_street2",   limit: 255
-    t.string   "city",              limit: 255
-    t.string   "province_state",    limit: 255
-    t.string   "postal_zip_code",   limit: 255
-    t.string   "industry",          limit: 255
-    t.string   "company_size",      limit: 255
-    t.string   "business_phone",    limit: 255
-    t.string   "fax",               limit: 255
-    t.text     "internal_notes",    limit: 65535
-    t.string   "archive_number",    limit: 255
+    t.string   "organization_name"
+    t.string   "email"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "home_phone"
+    t.string   "mobile_number"
+    t.string   "send_invoice_by"
+    t.string   "country"
+    t.string   "address_street1"
+    t.string   "address_street2"
+    t.string   "city"
+    t.string   "province_state"
+    t.string   "postal_zip_code"
+    t.string   "industry"
+    t.string   "company_size"
+    t.string   "business_phone"
+    t.string   "fax"
+    t.text     "internal_notes"
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
-    t.datetime "created_at",                                                            null: false
-    t.datetime "updated_at",                                                            null: false
-    t.decimal  "available_credit",                precision: 8, scale: 2, default: 0.0
-    t.integer  "currency_id",       limit: 4
-    t.string   "provider",          limit: 255
-    t.string   "provider_id",       limit: 255
-    t.string   "billing_email",     limit: 255
-    t.string   "vat_number",        limit: 255
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.decimal  "available_credit",  precision: 8, scale: 2, default: 0.0
+    t.integer  "currency_id"
+    t.string   "provider"
+    t.string   "provider_id"
+    t.string   "billing_email"
+    t.string   "vat_number"
   end
 
   create_table "companies", force: :cascade do |t|
-    t.integer  "account_id",        limit: 4
-    t.string   "company_name",      limit: 255
-    t.string   "contact_name",      limit: 255
-    t.string   "contact_title",     limit: 255
-    t.string   "country",           limit: 255
-    t.string   "city",              limit: 255
-    t.string   "street_address_1",  limit: 255
-    t.string   "street_address_2",  limit: 255
-    t.string   "province_or_state", limit: 255
-    t.string   "postal_or_zipcode", limit: 255
-    t.string   "phone_number",      limit: 255
-    t.string   "fax_number",        limit: 255
-    t.string   "email",             limit: 255
-    t.string   "logo",              limit: 255
-    t.string   "company_tag_line",  limit: 255
-    t.string   "memo",              limit: 255
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.string   "archive_number",    limit: 255
+    t.integer  "account_id"
+    t.string   "company_name"
+    t.string   "contact_name"
+    t.string   "contact_title"
+    t.string   "country"
+    t.string   "city"
+    t.string   "street_address_1"
+    t.string   "street_address_2"
+    t.string   "province_or_state"
+    t.string   "postal_or_zipcode"
+    t.string   "phone_number"
+    t.string   "fax_number"
+    t.string   "email"
+    t.string   "logo"
+    t.string   "company_tag_line"
+    t.string   "memo"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
-    t.integer  "base_currency_id",  limit: 4,   default: 1
-    t.string   "color_code",        limit: 255
-    t.string   "abbreviation",      limit: 255
+    t.integer  "base_currency_id",  default: 1
+    t.string   "abbreviation"
   end
 
   create_table "companies_users", id: false, force: :cascade do |t|
-    t.integer "user_id",    limit: 4
-    t.integer "company_id", limit: 4
+    t.integer "user_id"
+    t.integer "company_id"
   end
 
   create_table "company_email_templates", force: :cascade do |t|
-    t.integer  "template_id", limit: 4
-    t.integer  "parent_id",   limit: 4
-    t.string   "parent_type", limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "template_id"
+    t.integer  "parent_id"
+    t.string   "parent_type"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "company_entities", force: :cascade do |t|
-    t.integer  "entity_id",   limit: 4
-    t.string   "entity_type", limit: 255
-    t.integer  "parent_id",   limit: 4
-    t.string   "parent_type", limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "entity_id"
+    t.string   "entity_type"
+    t.integer  "parent_id"
+    t.string   "parent_type"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "credit_payments", force: :cascade do |t|
-    t.integer  "payment_id", limit: 4
-    t.integer  "invoice_id", limit: 4
-    t.decimal  "amount",               precision: 10, scale: 2
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.integer  "credit_id",  limit: 4
+    t.integer  "payment_id"
+    t.integer  "invoice_id"
+    t.decimal  "amount",     precision: 10, scale: 2
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "credit_id"
   end
 
   create_table "currencies", force: :cascade do |t|
-    t.string   "title",      limit: 255
-    t.string   "code",       limit: 255
-    t.string   "unit",       limit: 255
+    t.string   "title"
+    t.string   "code"
+    t.string   "unit"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",             limit: 4,     default: 0
-    t.integer  "attempts",             limit: 4,     default: 0
-    t.text     "handler",              limit: 65535
-    t.text     "last_error",           limit: 65535
+    t.integer  "priority",             default: 0
+    t.integer  "attempts",             default: 0
+    t.text     "handler"
+    t.text     "last_error"
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
-    t.string   "locked_by",            limit: 255
-    t.string   "queue",                limit: 255
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-    t.integer  "recurring_profile_id", limit: 4
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "recurring_profile_id"
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "email_templates", force: :cascade do |t|
-    t.string   "template_type",            limit: 255
-    t.string   "email_from",               limit: 255
-    t.string   "subject",                  limit: 255
-    t.text     "body",                     limit: 65535
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
-    t.string   "status",                   limit: 255
-    t.integer  "torder",                   limit: 4
-    t.boolean  "send_email",                             default: true
-    t.integer  "no_of_days",               limit: 4
-    t.boolean  "is_late_payment_reminder",               default: false
-    t.string   "cc",                       limit: 255
-    t.string   "bcc",                      limit: 255
+    t.string   "template_type"
+    t.string   "email_from"
+    t.string   "subject"
+    t.text     "body"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.string   "status"
+    t.integer  "torder"
+    t.boolean  "send_email",               default: true
+    t.integer  "no_of_days"
+    t.boolean  "is_late_payment_reminder", default: false
+    t.string   "cc"
+    t.string   "bcc"
   end
 
   create_table "estimates", force: :cascade do |t|
-    t.string   "estimate_number",     limit: 255
+    t.string   "estimate_number"
     t.datetime "estimate_date"
-    t.string   "po_number",           limit: 255
-    t.decimal  "discount_percentage",               precision: 10, scale: 2
-    t.integer  "client_id",           limit: 4
-    t.text     "terms",               limit: 65535
-    t.text     "notes",               limit: 65535
-    t.string   "status",              limit: 255
-    t.decimal  "sub_total",                         precision: 10, scale: 2
-    t.decimal  "discount_amount",                   precision: 10, scale: 2
-    t.decimal  "tax_amount",                        precision: 10, scale: 2
-    t.decimal  "estimate_total",                    precision: 10, scale: 2
-    t.string   "archive_number",      limit: 255
+    t.string   "po_number"
+    t.decimal  "discount_percentage", precision: 10, scale: 2
+    t.integer  "client_id"
+    t.text     "terms"
+    t.text     "notes"
+    t.string   "status"
+    t.decimal  "sub_total",           precision: 10, scale: 2
+    t.decimal  "discount_amount",     precision: 10, scale: 2
+    t.decimal  "tax_amount",          precision: 10, scale: 2
+    t.decimal  "estimate_total",      precision: 10, scale: 2
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
-    t.datetime "created_at",                                                 null: false
-    t.datetime "updated_at",                                                 null: false
-    t.string   "discount_type",       limit: 255
-    t.integer  "company_id",          limit: 4
-    t.integer  "created_by",          limit: 4
-    t.integer  "updated_by",          limit: 4
-    t.integer  "currency_id",         limit: 4
-    t.string   "provider",            limit: 255
-    t.string   "provider_id",         limit: 255
-    t.decimal  "estimate_tax_amount",               precision: 10, scale: 2
-    t.integer  "tax_id",              limit: 4
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.string   "discount_type"
+    t.integer  "company_id"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.integer  "currency_id"
+    t.string   "provider"
+    t.string   "provider_id"
+    t.decimal  "estimate_tax_amount", precision: 10, scale: 2
+    t.integer  "tax_id"
   end
 
   create_table "expense_categories", force: :cascade do |t|
-    t.string   "name",        limit: 255
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "provider",    limit: 255
-    t.string   "provider_id", limit: 255
+    t.string   "provider"
+    t.string   "provider_id"
   end
 
   create_table "expenses", force: :cascade do |t|
-    t.float    "amount",         limit: 24
+    t.float    "amount"
     t.datetime "expense_date"
-    t.integer  "category_id",    limit: 4
-    t.text     "note",           limit: 65535
-    t.integer  "client_id",      limit: 4
-    t.string   "archive_number", limit: 255
+    t.integer  "category_id"
+    t.text     "note"
+    t.integer  "client_id"
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.time     "deleted_at"
-    t.integer  "tax_1",          limit: 4
-    t.integer  "tax_2",          limit: 4
-    t.integer  "company_id",     limit: 4
+    t.integer  "tax_1"
+    t.integer  "tax_2"
+    t.integer  "company_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "provider",       limit: 255
-    t.string   "provider_id",    limit: 255
+    t.string   "provider"
+    t.string   "provider_id"
   end
 
   create_table "invoice_line_items", force: :cascade do |t|
-    t.integer  "invoice_id",       limit: 4
-    t.integer  "item_id",          limit: 4
-    t.string   "item_name",        limit: 255
-    t.string   "item_description", limit: 255
-    t.decimal  "item_unit_cost",               precision: 10, scale: 2
-    t.decimal  "item_quantity",                precision: 10, scale: 2
-    t.integer  "tax_1",            limit: 4
-    t.integer  "tax_2",            limit: 4
-    t.string   "archive_number",   limit: 255
+    t.integer  "invoice_id"
+    t.integer  "item_id"
+    t.string   "item_name"
+    t.string   "item_description"
+    t.decimal  "item_unit_cost",   precision: 10, scale: 2
+    t.decimal  "item_quantity",    precision: 10, scale: 2
+    t.integer  "tax_1"
+    t.integer  "tax_2"
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
-    t.datetime "created_at",                                                          null: false
-    t.datetime "updated_at",                                                          null: false
-    t.decimal  "actual_price",                 precision: 10, scale: 2, default: 0.0
-    t.integer  "estimate_id",      limit: 4
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.decimal  "actual_price",     precision: 10, scale: 2, default: 0.0
+    t.integer  "estimate_id"
   end
 
   create_table "invoice_tasks", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.string   "description", limit: 255
-    t.integer  "rate",        limit: 4
-    t.float    "hours",       limit: 24
-    t.integer  "invoice_id",  limit: 4
+    t.string   "name"
+    t.string   "description"
+    t.integer  "rate"
+    t.float    "hours"
+    t.integer  "invoice_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "invoices", force: :cascade do |t|
-    t.string   "invoice_number",                 limit: 255
+    t.string   "invoice_number"
     t.datetime "invoice_date"
-    t.string   "po_number",                      limit: 255
-    t.decimal  "discount_percentage",                          precision: 15, scale: 3
-    t.integer  "client_id",                      limit: 4
-    t.text     "terms",                          limit: 65535
-    t.text     "notes",                          limit: 65535
-    t.string   "status",                         limit: 255
-    t.decimal  "sub_total",                                    precision: 15, scale: 3
-    t.decimal  "discount_amount",                              precision: 15, scale: 3
-    t.decimal  "tax_amount",                                   precision: 15, scale: 3
-    t.decimal  "invoice_total",                                precision: 15, scale: 3
-    t.string   "archive_number",                 limit: 255
+    t.string   "po_number"
+    t.decimal  "discount_percentage",            precision: 10, scale: 2
+    t.integer  "client_id"
+    t.text     "terms"
+    t.text     "notes"
+    t.string   "status"
+    t.decimal  "sub_total",                      precision: 10, scale: 2
+    t.decimal  "discount_amount",                precision: 10, scale: 2
+    t.decimal  "tax_amount",                     precision: 10, scale: 2
+    t.decimal  "invoice_total",                  precision: 10, scale: 2
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
-    t.datetime "created_at",                                                                            null: false
-    t.datetime "updated_at",                                                                            null: false
-    t.integer  "payment_terms_id",               limit: 4
+    t.datetime "created_at",                                                            null: false
+    t.datetime "updated_at",                                                            null: false
+    t.integer  "payment_terms_id"
     t.date     "due_date"
-    t.string   "last_invoice_status",            limit: 255
-    t.string   "discount_type",                  limit: 255
-    t.integer  "company_id",                     limit: 4
-    t.integer  "project_id",                     limit: 4
-    t.string   "invoice_type",                   limit: 255
-    t.integer  "currency_id",                    limit: 4
-    t.integer  "created_by",                     limit: 4
-    t.integer  "updated_by",                     limit: 4
-    t.string   "provider",                       limit: 255
-    t.string   "provider_id",                    limit: 255
-    t.integer  "tax_id",                         limit: 4
-    t.decimal  "invoice_tax_amount",                           precision: 10, scale: 2
-    t.integer  "parent_id",                      limit: 4
-    t.integer  "base_currency_id",               limit: 4,                              default: 1
-    t.float    "conversion_rate",                limit: 24,                             default: 1.0
-    t.float    "base_currency_equivalent_total", limit: 24
-    t.boolean  "is_compact",                                                            default: false
-    t.string   "batch_number",                   limit: 255
-    t.integer  "batch_id",                       limit: 4
-    t.boolean  "is_batched"
+    t.string   "last_invoice_status"
+    t.string   "discount_type"
+    t.integer  "company_id"
+    t.integer  "project_id"
+    t.string   "invoice_type"
+    t.integer  "currency_id"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.string   "provider"
+    t.string   "provider_id"
+    t.integer  "tax_id"
+    t.decimal  "invoice_tax_amount",             precision: 10, scale: 2
+    t.integer  "parent_id"
+    t.integer  "base_currency_id",                                        default: 1
+    t.float    "conversion_rate",                                         default: 1.0
+    t.float    "base_currency_equivalent_total"
   end
 
   create_table "items", force: :cascade do |t|
-    t.string   "item_name",        limit: 255
-    t.string   "item_description", limit: 255
-    t.decimal  "unit_cost",                    precision: 10, scale: 2
-    t.decimal  "quantity",                     precision: 10, scale: 2
-    t.integer  "tax_1",            limit: 4
-    t.integer  "tax_2",            limit: 4
+    t.string   "item_name"
+    t.string   "item_description"
+    t.decimal  "unit_cost",        precision: 10, scale: 2
+    t.decimal  "quantity",         precision: 10, scale: 2
+    t.integer  "tax_1"
+    t.integer  "tax_2"
     t.boolean  "track_inventory"
-    t.integer  "inventory",        limit: 4
-    t.string   "archive_number",   limit: 255
+    t.integer  "inventory"
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
-    t.datetime "created_at",                                                          null: false
-    t.datetime "updated_at",                                                          null: false
-    t.decimal  "actual_price",                 precision: 10, scale: 2, default: 0.0
-    t.string   "provider",         limit: 255
-    t.string   "provider_id",      limit: 255
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.decimal  "actual_price",     precision: 10, scale: 2, default: 0.0
+    t.string   "provider"
+    t.string   "provider_id"
   end
 
   create_table "line_item_taxes", force: :cascade do |t|
-    t.integer  "invoice_line_item_id", limit: 4
-    t.decimal  "percentage",                       precision: 10
-    t.string   "name",                 limit: 255
-    t.integer  "tax_id",               limit: 4
+    t.integer  "invoice_line_item_id"
+    t.decimal  "percentage"
+    t.string   "name"
+    t.integer  "tax_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "archive_number",       limit: 255
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
   end
 
   create_table "logs", force: :cascade do |t|
-    t.integer  "project_id",  limit: 4
-    t.integer  "task_id",     limit: 4
-    t.float    "hours",       limit: 24
-    t.string   "notes",       limit: 255
+    t.integer  "project_id"
+    t.integer  "task_id"
+    t.float    "hours"
+    t.string   "notes"
     t.date     "date"
-    t.integer  "company_id",  limit: 4
+    t.integer  "company_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "provider",    limit: 255
-    t.string   "provider_id", limit: 255
-    t.integer  "user_id",     limit: 4
+    t.string   "provider"
+    t.string   "provider_id"
+    t.integer  "user_id"
   end
 
   create_table "mail_configs", force: :cascade do |t|
-    t.string   "address",              limit: 255
-    t.integer  "port",                 limit: 4
-    t.string   "authentication",       limit: 255
-    t.string   "user_name",            limit: 255
-    t.string   "password",             limit: 255
+    t.string   "address"
+    t.integer  "port"
+    t.string   "authentication"
+    t.string   "user_name"
+    t.string   "password"
     t.boolean  "enable_starttls_auto"
-    t.integer  "company_id",           limit: 4
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.string   "from",                 limit: 255
+    t.integer  "company_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.string   "from"
   end
 
   add_index "mail_configs", ["company_id"], name: "index_mail_configs_on_company_id", using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
-    t.integer  "resource_owner_id", limit: 4,     null: false
-    t.integer  "application_id",    limit: 4,     null: false
-    t.string   "token",             limit: 255,   null: false
-    t.integer  "expires_in",        limit: 4,     null: false
-    t.text     "redirect_uri",      limit: 65535, null: false
-    t.datetime "created_at",                      null: false
+    t.integer  "resource_owner_id", null: false
+    t.integer  "application_id",    null: false
+    t.string   "token",             null: false
+    t.integer  "expires_in",        null: false
+    t.text     "redirect_uri",      null: false
+    t.datetime "created_at",        null: false
     t.datetime "revoked_at"
-    t.string   "scopes",            limit: 255
+    t.string   "scopes"
   end
 
   add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true, using: :btree
 
   create_table "oauth_access_tokens", force: :cascade do |t|
-    t.integer  "resource_owner_id", limit: 4
-    t.integer  "application_id",    limit: 4
-    t.string   "token",             limit: 255, null: false
-    t.string   "refresh_token",     limit: 255
-    t.integer  "expires_in",        limit: 4
+    t.integer  "resource_owner_id"
+    t.integer  "application_id"
+    t.string   "token",             null: false
+    t.string   "refresh_token"
+    t.integer  "expires_in"
     t.datetime "revoked_at"
-    t.datetime "created_at",                    null: false
-    t.string   "scopes",            limit: 255
+    t.datetime "created_at",        null: false
+    t.string   "scopes"
   end
 
   add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true, using: :btree
@@ -440,11 +438,11 @@ ActiveRecord::Schema.define(version: 20191022115856) do
   add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
 
   create_table "oauth_applications", force: :cascade do |t|
-    t.string   "name",         limit: 255,                null: false
-    t.string   "uid",          limit: 255,                null: false
-    t.string   "secret",       limit: 255,                null: false
-    t.text     "redirect_uri", limit: 65535,              null: false
-    t.string   "scopes",       limit: 255,   default: "", null: false
+    t.string   "name",                      null: false
+    t.string   "uid",                       null: false
+    t.string   "secret",                    null: false
+    t.text     "redirect_uri",              null: false
+    t.string   "scopes",       default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -452,35 +450,35 @@ ActiveRecord::Schema.define(version: 20191022115856) do
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "payment_terms", force: :cascade do |t|
-    t.integer  "number_of_days", limit: 4
-    t.string   "description",    limit: 255
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.integer  "number_of_days"
+    t.string   "description"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "payments", force: :cascade do |t|
-    t.integer  "invoice_id",                limit: 4
-    t.decimal  "payment_amount",                          precision: 15, scale: 3
-    t.string   "payment_type",              limit: 255
-    t.string   "payment_method",            limit: 255
+    t.integer  "invoice_id"
+    t.decimal  "payment_amount",            precision: 15, scale: 3
+    t.string   "payment_type"
+    t.string   "payment_method"
     t.date     "payment_date"
-    t.text     "notes",                     limit: 65535
+    t.text     "notes"
     t.boolean  "send_payment_notification"
     t.boolean  "paid_full"
-    t.string   "archive_number",            limit: 255
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
-    t.decimal  "credit_applied",                          precision: 15, scale: 3
-    t.integer  "client_id",                 limit: 4
-    t.integer  "company_id",                limit: 4
-    t.string   "status",                    limit: 255
-    t.string   "provider",                  limit: 255
-    t.string   "provider_id",               limit: 255
-    t.integer  "currency_id",               limit: 4
-    t.integer  "created_by",                limit: 4
-    t.integer  "updated_by",                limit: 4
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+    t.decimal  "credit_applied",            precision: 15, scale: 3
+    t.integer  "client_id"
+    t.integer  "company_id"
+    t.string   "status"
+    t.string   "provider"
+    t.string   "provider_id"
+    t.integer  "currency_id"
+    t.integer  "created_by"
+    t.integer  "updated_by"
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -488,114 +486,114 @@ ActiveRecord::Schema.define(version: 20191022115856) do
     t.boolean  "can_update"
     t.boolean  "can_delete"
     t.boolean  "can_read"
-    t.string   "entity_type", limit: 255
-    t.integer  "role_id",     limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "entity_type"
+    t.integer  "role_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "permissions", ["role_id"], name: "index_permissions_on_role_id", using: :btree
 
   create_table "project_tasks", force: :cascade do |t|
-    t.string   "name",           limit: 255
-    t.text     "description",    limit: 65535
-    t.float    "rate",           limit: 24
-    t.string   "archive_number", limit: 255
+    t.string   "name"
+    t.text     "description"
+    t.float    "rate"
+    t.string   "archive_number"
     t.datetime "archived_at"
-    t.integer  "project_id",     limit: 4
-    t.integer  "task_id",        limit: 4
+    t.integer  "project_id"
+    t.integer  "task_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "start_date"
     t.datetime "due_date"
-    t.float    "hours",          limit: 24
-    t.float    "spent_time",     limit: 24
+    t.float    "hours"
+    t.float    "spent_time"
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "project_name",   limit: 255
-    t.integer  "client_id",      limit: 4
-    t.integer  "manager_id",     limit: 4
-    t.string   "billing_method", limit: 255
-    t.text     "description",    limit: 65535
-    t.integer  "total_hours",    limit: 4
-    t.integer  "company_id",     limit: 4
-    t.integer  "updated_by",     limit: 4
-    t.integer  "created_by",     limit: 4
-    t.string   "archive_number", limit: 255
+    t.string   "project_name"
+    t.integer  "client_id"
+    t.integer  "manager_id"
+    t.string   "billing_method"
+    t.text     "description"
+    t.integer  "total_hours"
+    t.integer  "company_id"
+    t.integer  "updated_by"
+    t.integer  "created_by"
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "provider",       limit: 255
-    t.string   "provider_id",    limit: 255
+    t.string   "provider"
+    t.string   "provider_id"
   end
 
   create_table "recurring_profile_line_items", force: :cascade do |t|
-    t.integer  "recurring_profile_id", limit: 4
-    t.integer  "item_id",              limit: 4
-    t.string   "item_name",            limit: 255
-    t.string   "item_description",     limit: 255
-    t.decimal  "item_unit_cost",                   precision: 10, scale: 2
-    t.decimal  "item_quantity",                    precision: 10, scale: 2
-    t.integer  "tax_1",                limit: 4
-    t.integer  "tax_2",                limit: 4
-    t.datetime "created_at",                                                null: false
-    t.datetime "updated_at",                                                null: false
-    t.string   "archive_number",       limit: 255
+    t.integer  "recurring_profile_id"
+    t.integer  "item_id"
+    t.string   "item_name"
+    t.string   "item_description"
+    t.decimal  "item_unit_cost",       precision: 10, scale: 2
+    t.decimal  "item_quantity",        precision: 10, scale: 2
+    t.integer  "tax_1"
+    t.integer  "tax_2"
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
   end
 
   create_table "recurring_profiles", force: :cascade do |t|
     t.datetime "first_invoice_date"
-    t.string   "po_number",           limit: 255
-    t.decimal  "discount_percentage",               precision: 10, scale: 2
-    t.string   "frequency",           limit: 255
-    t.integer  "occurrences",         limit: 4
+    t.string   "po_number"
+    t.decimal  "discount_percentage", precision: 10, scale: 2
+    t.string   "frequency"
+    t.integer  "occurrences"
     t.boolean  "prorate"
-    t.decimal  "prorate_for",                       precision: 10, scale: 2
-    t.integer  "gateway_id",          limit: 4
-    t.integer  "client_id",           limit: 4
-    t.text     "notes",               limit: 65535
-    t.string   "status",              limit: 255
-    t.decimal  "sub_total",                         precision: 10, scale: 2
-    t.decimal  "discount_amount",                   precision: 10, scale: 2
-    t.decimal  "tax_amount",                        precision: 10, scale: 2
-    t.datetime "created_at",                                                 null: false
-    t.datetime "updated_at",                                                 null: false
-    t.string   "invoice_number",      limit: 255
-    t.string   "discount_type",       limit: 255
-    t.decimal  "invoice_total",                     precision: 10, scale: 2
-    t.string   "archive_number",      limit: 255
+    t.decimal  "prorate_for",         precision: 10, scale: 2
+    t.integer  "gateway_id"
+    t.integer  "client_id"
+    t.text     "notes"
+    t.string   "status"
+    t.decimal  "sub_total",           precision: 10, scale: 2
+    t.decimal  "discount_amount",     precision: 10, scale: 2
+    t.decimal  "tax_amount",          precision: 10, scale: 2
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.string   "invoice_number"
+    t.string   "discount_type"
+    t.decimal  "invoice_total",       precision: 10, scale: 2
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
-    t.integer  "payment_terms_id",    limit: 4
-    t.integer  "company_id",          limit: 4
-    t.string   "last_invoice_status", limit: 255
+    t.integer  "payment_terms_id"
+    t.integer  "company_id"
+    t.string   "last_invoice_status"
     t.datetime "last_sent_date"
-    t.integer  "sent_invoices",       limit: 4
-    t.integer  "currency_id",         limit: 4
-    t.integer  "created_by",          limit: 4
-    t.integer  "updated_by",          limit: 4
+    t.integer  "sent_invoices"
+    t.integer  "currency_id"
+    t.integer  "created_by"
+    t.integer  "updated_by"
   end
 
   create_table "recurring_schedules", force: :cascade do |t|
     t.datetime "next_invoice_date"
-    t.string   "frequency",         limit: 255
-    t.integer  "occurrences",       limit: 4,   default: 0
-    t.string   "delivery_option",   limit: 255
-    t.integer  "invoice_id",        limit: 4
-    t.integer  "generated_count",   limit: 4,   default: 0
+    t.string   "frequency"
+    t.integer  "occurrences",       default: 0
+    t.string   "delivery_option"
+    t.integer  "invoice_id"
+    t.integer  "generated_count",   default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "enable_recurring",              default: true
+    t.boolean  "enable_recurring",  default: true
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string   "name",          limit: 255
-    t.integer  "resource_id",   limit: 4
-    t.string   "resource_type", limit: 255
+    t.string   "name"
+    t.integer  "resource_id"
+    t.string   "resource_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -605,21 +603,21 @@ ActiveRecord::Schema.define(version: 20191022115856) do
 
   create_table "sent_emails", force: :cascade do |t|
     t.date     "date"
-    t.string   "sender",            limit: 255
-    t.string   "recipient",         limit: 255
-    t.string   "type",              limit: 255
-    t.string   "subject",           limit: 255
-    t.text     "content",           limit: 65535
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.integer  "notification_id",   limit: 4
-    t.string   "notification_type", limit: 255
-    t.integer  "company_id",        limit: 4
+    t.string   "sender"
+    t.string   "recipient"
+    t.string   "type"
+    t.string   "subject"
+    t.text     "content"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "notification_id"
+    t.string   "notification_type"
+    t.integer  "company_id"
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.string   "session_id", limit: 255,   null: false
-    t.text     "data",       limit: 65535
+    t.string   "session_id", null: false
+    t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -628,9 +626,9 @@ ActiveRecord::Schema.define(version: 20191022115856) do
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
   create_table "settings", force: :cascade do |t|
-    t.string   "var",        limit: 255,   null: false
-    t.text     "value",      limit: 65535
-    t.integer  "thing_id",   limit: 4
+    t.string   "var",                   null: false
+    t.text     "value"
+    t.integer  "thing_id"
     t.string   "thing_type", limit: 30
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -639,87 +637,87 @@ ActiveRecord::Schema.define(version: 20191022115856) do
   add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
 
   create_table "staffs", force: :cascade do |t|
-    t.string   "email",          limit: 255
-    t.string   "name",           limit: 255
-    t.float    "rate",           limit: 24
-    t.integer  "created_by",     limit: 4
-    t.integer  "updated_by",     limit: 4
-    t.string   "archive_number", limit: 255
+    t.string   "email"
+    t.string   "name"
+    t.float    "rate"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.time     "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "company_id",     limit: 4
-    t.string   "provider",       limit: 255
-    t.string   "provider_id",    limit: 255
-    t.integer  "user_id",        limit: 4
+    t.integer  "company_id"
+    t.string   "provider"
+    t.string   "provider_id"
+    t.integer  "user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string   "name",           limit: 255
-    t.text     "description",    limit: 65535
+    t.string   "name"
+    t.text     "description"
     t.boolean  "billable"
-    t.float    "rate",           limit: 24
-    t.string   "archive_number", limit: 255
+    t.float    "rate"
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.time     "deleted_at"
-    t.integer  "updated_by",     limit: 4
-    t.integer  "created_by",     limit: 4
-    t.integer  "project_id",     limit: 4
+    t.integer  "updated_by"
+    t.integer  "created_by"
+    t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "provider",       limit: 255
-    t.string   "provider_id",    limit: 255
+    t.string   "provider"
+    t.string   "provider_id"
   end
 
   create_table "taxes", force: :cascade do |t|
-    t.string   "name",           limit: 255
-    t.decimal  "percentage",                 precision: 10, scale: 2
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
-    t.string   "archive_number", limit: 255
+    t.string   "name"
+    t.decimal  "percentage",     precision: 10, scale: 2
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "archive_number"
     t.datetime "archived_at"
     t.datetime "deleted_at"
-    t.string   "provider",       limit: 255
-    t.string   "provider_id",    limit: 255
+    t.string   "provider"
+    t.string   "provider_id"
   end
 
   create_table "team_members", force: :cascade do |t|
-    t.string   "email",          limit: 255
-    t.string   "name",           limit: 255
-    t.float    "rate",           limit: 24
-    t.string   "archive_number", limit: 255
+    t.string   "email"
+    t.string   "name"
+    t.float    "rate"
+    t.string   "archive_number"
     t.datetime "archived_at"
-    t.integer  "project_id",     limit: 4
-    t.integer  "staff_id",       limit: 4
+    t.integer  "project_id"
+    t.integer  "staff_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                     limit: 255, default: "",    null: false
-    t.string   "encrypted_password",        limit: 255, default: "",    null: false
-    t.string   "reset_password_token",      limit: 255
+    t.string   "email",                     default: "",    null: false
+    t.string   "encrypted_password",        default: "",    null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",             limit: 4,   default: 0
+    t.integer  "sign_in_count",             default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",        limit: 255
-    t.string   "last_sign_in_ip",           limit: 255
-    t.string   "confirmation_token",        limit: 255
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email",         limit: 255
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
-    t.string   "password_salt",             limit: 255
-    t.string   "user_name",                 limit: 255
-    t.integer  "current_company",           limit: 4
-    t.string   "authentication_token",      limit: 255
-    t.string   "avatar",                    limit: 255
-    t.integer  "role_id",                   limit: 4
-    t.boolean  "have_all_companies_access",             default: false
+    t.string   "unconfirmed_email"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.string   "password_salt"
+    t.string   "user_name"
+    t.integer  "current_company"
+    t.string   "authentication_token"
+    t.string   "avatar"
+    t.integer  "role_id"
+    t.boolean  "have_all_companies_access", default: false
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
@@ -728,11 +726,11 @@ ActiveRecord::Schema.define(version: 20191022115856) do
   add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
 
   create_table "versions", force: :cascade do |t|
-    t.string   "item_type",  limit: 255,   null: false
-    t.integer  "item_id",    limit: 4,     null: false
-    t.string   "event",      limit: 255,   null: false
-    t.string   "whodunnit",  limit: 255
-    t.text     "object",     limit: 65535
+    t.string   "item_type",  null: false
+    t.integer  "item_id",    null: false
+    t.string   "event",      null: false
+    t.string   "whodunnit"
+    t.text     "object"
     t.datetime "created_at"
   end
 

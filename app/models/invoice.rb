@@ -28,8 +28,8 @@ class Invoice < ActiveRecord::Base
   tracked only: [:create, :update], owner: ->(controller, model) { controller && controller.current_user }, params:{ "obj"=> proc {|controller, model_instance| model_instance.changes}}
 
   scope :multiple, ->(ids_list) {where("id in (?)", ids_list.is_a?(String) ? ids_list.split(',') : [*ids_list]) }
-  scope :current_invoices,->(company_id){ where("IFNULL(due_date, invoice_date) >= ?", Date.today).where(company_id: company_id).order('due_date DESC')}
-  scope :past_invoices, -> (company_id){where("IFNULL(due_date, invoice_date) < ?", Date.today).where(company_id: company_id).order('due_date DESC')}
+  scope :current_invoices,->(company_id){ where("NULLIF(due_date, invoice_date) >= ?", Date.today).where(company_id: company_id).order('due_date DESC')}
+  scope :past_invoices, -> (company_id){where("NULLIF(due_date, invoice_date) < ?", Date.today).where(company_id: company_id).order('due_date DESC')}
   scope :status, -> (status) { where(status: status) }
   scope :client_id, -> (client_id) { where(client_id: client_id) }
   scope :invoice_number, -> (invoice_number) { where(id: invoice_number) }
